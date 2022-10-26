@@ -17,11 +17,9 @@ const handler = nc<NextApiRequest, NextApiResponse>({
   onError: (err, req, res, next) => {
     if(err.message === "Only .jpg/.jpeg format is allowed!"){ 
       res.status(415).end(err.message);
-    } 
-    if(err.message === 'File too large'){
+    } else if(err.message === 'File too large'){
       res.status(413).end(err.message)
-    }
-    if(err.message === "No file found, please attach a file"){
+    } else if(err.message === "No file found, please attach a file"){
       res.status(400).end(err.message)
     } else {
       console.log(err);
