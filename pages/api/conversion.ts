@@ -15,7 +15,7 @@ export const config = {
 
 const handler = nc<NextApiRequest, NextApiResponse>({
   onError: (err, req, res, next) => {
-    if(err.message === "Only .jpg/.jpeg format is allowed!"){ 
+    if(err.message === "Only .jpg/.jpeg format is allowed!"){
       res.status(415).end(err.message);
     } else if(err.message === 'File too large'){
       res.status(413).end(err.message)

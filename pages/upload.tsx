@@ -21,10 +21,12 @@ let Upload: NextPage <{onConversion: Function}>= ({onConversion})=> {
   /*On submition convert file into FormData*/
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (file) {
+    if (file.data) {
       const formData = new FormData();
       formData.append("original_file", file.data, file.name);
+      
       axios.post("/api/conversion", formData, {}).then((res) => {
+        console.log("res from axios", res);
         setErrorMsg("");
         let fileUrl: string = res.data.url;
         onConversion(fileUrl);
@@ -56,7 +58,7 @@ let Upload: NextPage <{onConversion: Function}>= ({onConversion})=> {
             className="file-selection-input"
             name="file-input"
             id="file-input"
-            accept="image/*"
+            accept=".jpg, .jpeg"
             onChange={onFileChange}
           />
         </div>
