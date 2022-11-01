@@ -30,11 +30,13 @@ const handler = nc<NextApiRequest, NextApiResponse>({
     res.status(404).end("Page is not found");
   },
 })
+const imagePath = path.join(process.cwd() + 'public/images')
+console.log(imagePath);
 
 /*multer setup*/
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'public/images');
+      cb(null, imagePath);
   },
   filename: (req, file, cb) => {
       const fileName = file.originalname.toLowerCase().split(' ').join('-');
