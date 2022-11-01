@@ -30,7 +30,7 @@ const handler = nc<NextApiRequest, NextApiResponse>({
     res.status(404).end("Page is not found");
   },
 })
-const imagePath = path.join(process.cwd() + 'public/images')
+const imagePath = path.join(process.cwd() + '/public/images')
 console.log(imagePath);
 
 /*multer setup*/
