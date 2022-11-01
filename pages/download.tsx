@@ -13,7 +13,7 @@ import { DownloadStatus } from "../interfaces/intefaces";
 import Image from 'next/image';
 
 let Download: NextPage <{download: DownloadStatus}>= ({download})=> {
-  const fileUrl = download.fileUrl;
+  const fileUrl = download?.fileUrl;
   /*Copy file URL to the clipboard*/
   function copyText() {
     navigator.clipboard.writeText(fileUrl);
@@ -25,7 +25,7 @@ let Download: NextPage <{download: DownloadStatus}>= ({download})=> {
         <div className="converted-file">
           <p className="text-of-download">Scan QR code</p>
           <div style={{ background: "white", padding: "10px", width: "100px", height: "100px", margin: "auto" }}>
-            <QRCode value={fileUrl} size={100} />
+            <QRCode value={fileUrl? fileUrl: ""} size={100} />
           </div>
         </div>
         <div className="converted-file">

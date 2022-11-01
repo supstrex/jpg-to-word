@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import axios, { AxiosError } from "axios";
-import useDrivePicker from "react-google-drive-picker";
+import axios from "axios";
 import { UploadingFile } from "../interfaces/intefaces";
 import { NextPage } from "next";
 import Image from 'next/image';
@@ -19,23 +18,43 @@ let Upload: NextPage <{onConversion: Function}>= ({onConversion})=> {
   }
 
   /*On submition convert file into FormData*/
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (file.data) {
       const formData = new FormData();
       formData.append("original_file", file.data, file.name);
-      
-      axios.post("/api/conversion", formData, {}).then((res) => {
-        console.log("res from axios", res);
+
+      try {
+        const { data } = await axios.post("/api/conversion", formData, {})
         setErrorMsg("");
-        let fileUrl: string = res.data.url;
+        let fileUrl: string = data.url;
         onConversion(fileUrl);
-      }).catch((err: AxiosError)=>{
-        if(typeof err?.response?.data === 'string'){
-          setErrorMsg(err.response.data)
+      } catch (error: any) {
+        if (typeof error?.response?.data === 'string') {
+          setErrorMsg(error.response.data)
         }
-      })
-    }
+      }
+      
+      // console.log('fetchic araj');
+      // fetch("/api/conversion", {
+      //   method: "POST",
+      //   body: formData
+      // }).then((resp) => {
+      //   console.log('theni mej');
+      //   resp.json()
+      // })
+      // .then((data) => {
+      //   setErrorMsg("");
+      //   let fileUrl: string = data.url;
+      //   onConversion(fileUrl);})
+      // .catch((error: any)=>{
+      //   console.log('error@ qcuma?');
+      //   console.log("error", error);
+      //   if(typeof error?.response?.data === 'string'){
+      //     setErrorMsg(error.response.data)
+      //   }
+      // });
+    } 
   }
 
   return (
@@ -58,7 +77,7 @@ let Upload: NextPage <{onConversion: Function}>= ({onConversion})=> {
             className="file-selection-input"
             name="file-input"
             id="file-input"
-            accept=".jpg, .jpeg"
+            accept=".png, .jpg, .jpeg"
             onChange={onFileChange}
           />
         </div>
